@@ -16,6 +16,16 @@ namespace TestApp.ToDoList.Store
         s.HasKey(d => d.Id);
         s.HasIndex(d => d.Title)
             .IsUnique();
+
+        s.HasMany(t => t.Tags)
+            .WithMany()
+            .UsingEntity(j => j.ToTable("ToDoItemTag"));            
+      });
+
+      modBuilder.Entity<Tag>(tag =>
+      {
+          tag.HasKey(t => t.Id);
+          tag.HasIndex(t => t.Name).IsUnique();
       });
     }
   }

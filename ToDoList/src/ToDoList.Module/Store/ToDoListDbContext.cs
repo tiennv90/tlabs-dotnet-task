@@ -19,6 +19,11 @@ namespace TestApp.ToDoList.Store
     /// </summary>
     public DbSet<ToDoItem> ToDoItems { get; set; }
 
+    /// <summary>
+    /// DB Set for Tags
+    /// </summary>
+    public DbSet<Tag> Tags { get; set; }
+
     /// <inheritdoc/>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

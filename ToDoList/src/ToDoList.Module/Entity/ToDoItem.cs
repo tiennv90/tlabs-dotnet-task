@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TestApp.ToDoList.Entity
 {
@@ -30,5 +31,7 @@ namespace TestApp.ToDoList.Entity
     /// Completion date of the to-do item.
     /// </summary>
     public DateTime? CompletedAt { get; set; }
+
+    public ICollection<Tag> Tags { get; set; } = new List<Tag>();
   }
 }

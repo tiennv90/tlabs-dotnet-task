@@ -4,6 +4,7 @@ using System.Linq;
 using TestApp.ToDoList.Entity;
 using TestApp.ToDoList.Module;
 using TestApp.ToDoList.Repository;
+using TestApp.ToDoList.Pageable;
 
 namespace TestApp.ToDoList.Tracker
 {
@@ -51,10 +52,9 @@ namespace TestApp.ToDoList.Tracker
       return item;
     }
     /// <inheritdoc/>
-    public IEnumerable<ToDoItem> GetAllItems()
+    public IEnumerable<ToDoItem> GetAllItems(ToDoItemQueryParameters query)
     {
-      // Implementation for getting all to-do items
-      return repository.GetAllItems().ToList();
+        return repository.GetAllItems(query);
     }
     /// <inheritdoc/>
     public ToDoItem EditItem(int id, ToDoItem updatedTask)

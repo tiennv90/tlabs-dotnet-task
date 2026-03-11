@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TestApp.ToDoList.Entity;
+using TestApp.ToDoList.Pageable;
 
 namespace TestApp.ToDoList.Repository
 {
@@ -12,7 +13,7 @@ namespace TestApp.ToDoList.Repository
     /// Gets all to-do items from DB.
     /// </summary>
     /// <returns></returns>
-    ICollection<ToDoItem> GetAllItems();
+    ICollection<ToDoItem> GetAllItems(ToDoItemQueryParameters query);
     /// <summary>
     /// Gets single to-do item by Id.
     /// </summary>

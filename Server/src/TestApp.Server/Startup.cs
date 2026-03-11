@@ -2,7 +2,7 @@ using TestApp.ToDoList.Store;
 using TestApp.ToDoList.Module;
 using TestApp.ToDoList.Tracker;
 using TestApp.ToDoList.Repository;
-
+using TestApp.Server.Filters;
 
 namespace TestApp.Server
 {
@@ -20,7 +20,9 @@ namespace TestApp.Server
       services.AddDbContext<ToDoListDbContext>();
 
       // Add controllers
-      services.AddControllers();
+      services.AddControllers(option => {
+        option.Filters.Add<CommonExceptionFilter>();
+      });
 
       // Configure app services
       services.AddScoped<IToDoListTracker, ToDoListTracker>();
@@ -32,7 +34,7 @@ namespace TestApp.Server
         options.AddDefaultPolicy(policy =>
         {
           policy.AllowAnyOrigin()
-            .AllowAnyHeader();
+            .AllowAnyHeader().AllowAnyMethod();
         });
       });
 

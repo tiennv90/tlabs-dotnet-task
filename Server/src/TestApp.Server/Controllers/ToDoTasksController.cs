@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TestApp.ToDoList.Entity;
 using TestApp.ToDoList.Module;
+using TestApp.ToDoList.Pageable;
 
 namespace TestApp.Server.Controllers
 {
@@ -16,10 +17,10 @@ namespace TestApp.Server.Controllers
     }
 
     [HttpGet]
-    public IList<ToDoItem> GetTasks()
+    public IList<ToDoItem> GetTasks([FromQuery] ToDoItemQueryParameters query)
     {
-      var tasks = toDoListTracker.GetAllItems();
-      return tasks.ToList();
+        var tasks = toDoListTracker.GetAllItems(query);
+        return tasks.ToList();
     }
 
     [HttpPost]

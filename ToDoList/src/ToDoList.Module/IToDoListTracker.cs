@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TestApp.ToDoList.Entity;
+using TestApp.ToDoList.Pageable;
 
 namespace TestApp.ToDoList.Module
 {
@@ -30,7 +31,7 @@ namespace TestApp.ToDoList.Module
     /// Gets all to-do items.
     /// </summary>
     /// <returns></returns>
-    IEnumerable<ToDoItem> GetAllItems();
+    IEnumerable<ToDoItem> GetAllItems(ToDoItemQueryParameters query);
     /// <summary>
     /// Edits a to-do item.
     /// </summary>
