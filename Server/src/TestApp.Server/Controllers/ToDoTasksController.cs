@@ -17,10 +17,9 @@ namespace TestApp.Server.Controllers
     }
 
     [HttpGet]
-    public IList<ToDoItem> GetTasks([FromQuery] ToDoItemQueryParameters query)
+    public CursorPagedResponse<ToDoItem> GetTasks([FromQuery] ToDoItemQueryParameters query)
     {
-        var tasks = toDoListTracker.GetAllItems(query);
-        return tasks.ToList();
+        return toDoListTracker.GetAllItems(query);
     }
 
     [HttpPost]

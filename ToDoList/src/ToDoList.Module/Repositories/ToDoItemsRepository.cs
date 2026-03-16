@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TestApp.ToDoList.Entity;
 using TestApp.ToDoList.Store;
 using TestApp.ToDoList.Pageable;
+using System;
 
 namespace TestApp.ToDoList.Repository
 {
@@ -32,6 +33,14 @@ namespace TestApp.ToDoList.Repository
           new ToDoItem { Title = "Grocery Shopping", IsCompleted = true, Tags = new List<Tag> {homeTag}},
           new ToDoItem { Title = "Pay Bills", Tags = new List<Tag> {financeTag}},
           new ToDoItem { Title = "Clean the House", IsCompleted = true, Tags = new List<Tag> {homeTag}},
+          new ToDoItem { Title = "Morning Exercise", IsCompleted = false, Tags = new List<Tag> {homeTag}},
+          new ToDoItem { Title = "Apply Loan", IsCompleted = false, Tags = new List<Tag> {financeTag}},
+          new ToDoItem { Title = "Lease A Car", IsCompleted = false, Tags = new List<Tag> {financeTag}},
+          new ToDoItem { Title = "Pay Mortgage", IsCompleted = false, Tags = new List<Tag> {financeTag}},
+          new ToDoItem { Title = "Disk Washing", IsCompleted = false, Tags = new List<Tag> {homeTag}},
+          new ToDoItem { Title = "Empty waste baskets", IsCompleted = false, Tags = new List<Tag> {homeTag}},
+          new ToDoItem { Title = "Music Listening", IsCompleted = false, Tags = new List<Tag> {homeTag}},
+          new ToDoItem { Title = "Cooking", IsCompleted = false, Tags = new List<Tag> {homeTag}}
         }
       );
         context.SaveChanges();
@@ -42,24 +51,24 @@ namespace TestApp.ToDoList.Repository
     {
       //Allow chaining WHERE and ORDERBY condition
       var taskQuery = context.ToDoItems.AsQueryable();
-          
-      //Filter by completed
-      if (query.IsCompleted.HasValue)
-          taskQuery = taskQuery.Where(t => t.IsCompleted == query.IsCompleted.Value);
-
-      //Filter by tag
-      if (!string.IsNullOrEmpty(query.TagName))
-          taskQuery = taskQuery.Where(t => t.Tags.Any(tag => tag.Name == query.TagName));
-
-      //Sort
-      taskQuery = query.SortBy switch
+      
+      //Build Filter and Sort
+      var specs = new List<IQuerySpecification<ToDoItem>>
       {
-          "Title" => query.Ascending ? taskQuery.OrderBy(t => t.Title) : taskQuery.OrderByDescending(t => t.Title),
-          "CreatedAt" => query.Ascending ? taskQuery.OrderBy(t => t.CreatedAt) : taskQuery.OrderByDescending(t => t.CreatedAt),
-          "CompletedAt" => query.Ascending ? taskQuery.OrderBy(t => t.CompletedAt) : taskQuery.OrderByDescending(t => t.CompletedAt),
-          _ => taskQuery.OrderBy(t => t.Id)
+        new CompletedFilter(query.IsCompleted),
+        new TagFilter(query.TagName),
+        new SortSpecification(query.SortBy, query.Ascending),
+        new CursorPagination(query)
       };
-   
+
+      //Apply Filter and Sort and Paging
+      foreach (var spec in specs)
+      {
+        taskQuery = spec.Apply(taskQuery);
+      }
+
+      Console.WriteLine($"[DB] GetAllItems query: IsCompleted={query.IsCompleted}, TagName={query.TagName}");
+        
       return taskQuery.ToList();
     }
 

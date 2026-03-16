@@ -31,7 +31,7 @@ namespace TestApp.ToDoList.Module
     /// Gets all to-do items.
     /// </summary>
     /// <returns></returns>
-    IEnumerable<ToDoItem> GetAllItems(ToDoItemQueryParameters query);
+    CursorPagedResponse<ToDoItem> GetAllItems(ToDoItemQueryParameters query);
     /// <summary>
     /// Edits a to-do item.
     /// </summary>
