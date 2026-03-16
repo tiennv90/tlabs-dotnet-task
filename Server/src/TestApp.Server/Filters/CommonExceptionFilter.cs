@@ -8,6 +8,7 @@ namespace TestApp.Server.Filters
     {
         public void OnException(ExceptionContext context)
         {
+            Console.WriteLine("Global exception caught: " + context.Exception.Message);
             var exception = context.Exception;
             if (exception is ArgumentException)
             {
