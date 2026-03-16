@@ -14,9 +14,11 @@ namespace TestApp.ToDoList.Cache
         public void InvalidateToDoTaskListCache()
         {
             // Assumption: Simple Memory cache stores all currently used keys
+            Console.WriteLine("Invalidate cache");
             var keys = ToDoItemsCacheKeys.AllKeys;
             foreach (var key in keys)
             {
+                Console.WriteLine(key);
                 cacheSupplier.Remove(key);
             }
 

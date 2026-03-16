@@ -82,7 +82,7 @@ namespace TestApp.ToDoList.Tracker
       };
 
       cacheSupplier.Set(cacheKey, response, TimeSpan.FromMinutes(5));
-      cacheHelper.InvalidateToDoTaskListCache();
+      cacheHelper.registerKey(cacheKey);
       return response;
     }
     /// <inheritdoc/>
