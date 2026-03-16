@@ -3,6 +3,7 @@ using TestApp.ToDoList.Module;
 using TestApp.ToDoList.Tracker;
 using TestApp.ToDoList.Repository;
 using TestApp.Server.Filters;
+using TestApp.ToDoList.Cache;
 
 namespace TestApp.Server
 {
@@ -26,7 +27,9 @@ namespace TestApp.Server
 
       // Configure app services
       services.AddScoped<IToDoListTracker, ToDoListTracker>();
+      services.AddScoped<ITagTracker, TagTracker>();
       services.AddSingleton<IToDoItemsRepository, ToDoItemsRepository>();
+      services.AddSingleton<ITagRepository, TagRepository>();
       services.AddScoped<ToDoListEntityModel>();
 
       services.AddCors(options =>
@@ -37,6 +40,14 @@ namespace TestApp.Server
             .AllowAnyHeader().AllowAnyMethod();
         });
       });
+
+      // Config cache
+      services.AddMemoryCache();
+      services.AddSingleton<ICacheSupplier, MemoryCacheSupplier>();
+      services.AddSingleton<ICacheHelper, CacheHelper>();
+
+      // Config cache helper
+      // services.AddSingleton<ICacheHelper, CacheHelper>();
 
       services.AddEndpointsApiExplorer();
       services.AddSwaggerGen();

@@ -31,7 +31,7 @@ namespace TestApp.ToDoList.Module
             if (globalTag == null)
             {
                 globalTag = new Tag { Name = tagName };
-                tagRepository.Add(globalTag); 
+                tagRepository.Add(globalTag);
             }
 
             //add tag to Task and save Task
